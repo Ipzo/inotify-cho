@@ -10,14 +10,20 @@ events="moved_to"
 inotifywait -m -r -e $events "$watch_dir" |
     while read path action file; do
         grupo=$(stat -c "%G" $path)
+        owner=$(stat -c "%U" ${path}$file)
 
+	echo "$path"
+	echo "$grupo"
+        echo "$file"
+        echo "$owner"
+    
 	# Directory
         if [ -d "${path}$file" ]; then
             chgrp -R $grupo $path$file &&\
                 echo "$(date) - chgrp -R $grupo ${path}$file" ||\
                 echo "$(date) error al cambiar de grupo ${path}$file >&2 "
 	# Symbolic link
-        elif [ -h "${path}$file" ]; then
+        elif [ -L "${path}$file" ]; then
             chgrp -h $grupo $path$file &&\
                 echo "$(date) - chgrp -h $grupo ${path}$file" ||\
                 echo "$(date) error al cambiar de grupo ${path}$file >&2 "
