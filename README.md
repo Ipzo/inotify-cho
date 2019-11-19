@@ -11,33 +11,27 @@ inotify-cho is a service that changes group ownership of a file or directory mov
 ### Install
 
 ```bash
-sudo bash install.sh
+sudo bash installer.sh
 ```
 
 ```bash
+1) Install
+2) Uninstall
+3) Reinstall
+4) Quit
+Enter option [1-3]:
+```
+
+```bash
+Enter option [1-3]: 1
+```
+
+```bash
+Installing..
 Copying files..
 Making directories..
 Adding permissions..
 Adding service..
 Starting service..
-inotify-cho.sh is running, pid=3667
+inotify-cho.sh is running, pid=3000
 ```
-
-### Uninstall
-
-```bash
-sudo bash uninstall.sh
-```
-
-```bash
-Finishing service..
-Deleting service..
-Deleting files..
-Deleting directories..
-Done
-```
-## References
-
-* [Blog - awk.space](https://awk.space/blog/inotifywait-batching/)
-* [Colaboratorio](https://colaboratorio.net/davidochobits/sysadmin/2017/registro-cambios-sistema-ficheros-inotify/)
-* [Stack Exchange](https://unix.stackexchange.com/questions/20357/how-can-i-make-a-script-in-etc-init-d-start-at-boot)

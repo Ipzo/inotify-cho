@@ -13,8 +13,8 @@ inotifywait -m -r -e $events "$watch_dir" |
 
 	# Directory
         if [ -d "${path}$file" ]; then
-            chgrp -R $grupo $path$file &&\
-                echo "$(date) - chgrp -R $grupo ${path}$file" ||\
+            chgrp -Rh $grupo $path$file &&\
+                echo "$(date) - chgrp -Rh $grupo ${path}$file" ||\
                 echo "$(date) error al cambiar de grupo ${path}$file >&2 "
 	# Symbolic link
         elif [ -h "${path}$file" ]; then

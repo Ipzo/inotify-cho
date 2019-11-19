@@ -33,26 +33,57 @@ uninstall_service()
 {
     service inotify-cho stop 
 
-    echo Deleting service.. 
+    echo Removing service.. 
     chkconfig inotify-cho off
     chkconfig --del inotify-cho
 
-    echo Deleting files..
+    echo Removing files..
     rm -f /etc/init.d/inotify-cho
     rm -f /usr/sbin/inotify-cho.sh
     rm -f /etc/inotify-cho.conf
     rm -f /var/log/inotify-cho/inotify-cho.log
     rm -f /var/log/inotify-cho/inotify-cho.err
 
-    echo Deleting directories..
+    echo Removing directories..
     rmdir /var/log/inotify-cho
 
     echo Done
 }
 
+reinstall_service()
+{
+    service inotify-cho stop 
+
+    echo Removing service.. 
+    chkconfig inotify-cho off
+    chkconfig --del inotify-cho
+
+    echo Removing files..
+    rm -f /etc/init.d/inotify-cho
+    rm -f /usr/sbin/inotify-cho.sh
+
+    echo Copying files..
+    cp src/script/inotify-cho.sh /usr/sbin
+    cp src/service/inotify-cho /etc/init.d
+
+    chown root:root /usr/sbin/inotify-cho.sh
+    chown root:root /etc/init.d/inotify-cho
+
+    echo Adding permissions..
+    chmod 755 /usr/sbin/inotify-cho.sh
+    chmod 755 /etc/init.d/inotify-cho
+
+    echo Adding service..
+    chkconfig --add /etc/init.d/inotify-cho
+    chkconfig --level 2345 inotify-cho on
+
+    service inotify-cho start
+    service inotify-cho status
+}
+
 PS3='Enter option [1-3]: '
 
-select option in Install Uninstall Quit 
+select option in Install Uninstall Reinstall Quit 
 do
     case $option in
         "Install")
@@ -63,6 +94,11 @@ do
         "Uninstall")
             echo "Uninstalling.."
             uninstall_service
+            break
+            ;;
+        "Reinstall")
+            echo "Reinstalling.."
+            reinstall_service
             break
             ;;
         "Quit")
